@@ -95,12 +95,13 @@ export default function Families() {
       </div>
 
       {/* Footer */}
-      <div className="fam mt-16">
-        <p className="font-display text-sm italic tracking-widest text-gold">
-          Made with love ♥  by Manan
-        </p>
-      </div>
+{/* Footer */}
+<div className="mt-16">
+  <p className="font-display text-sm italic tracking-widest text-gold">
+    Crafted with love by ♥ Manan
+  </p>
+</div>
 
     </section>
   )
-}
+}   
