@@ -76,6 +76,7 @@ function Name({ prefix, name }) {
 }
 
 function Card({ title, lines = [] }) {
+  if (!title || !lines.length) return null
   return (
     <div className="fam relative border border-[#c9962f]/70 bg-[#fffaf0]/90 p-1.5 shadow-[0_10px_30px_rgba(122,18,48,0.1)] backdrop-blur-sm">
       <div className="relative h-full border border-dashed border-[#0f8b8d]/45 px-5 pt-9 pb-7 sm:px-6">
@@ -93,9 +94,9 @@ function Card({ title, lines = [] }) {
         </span>
         <h3 className="font-display text-xl text-[#7a1230] sm:text-2xl">{title}</h3>
         <div aria-hidden className="mx-auto my-3 h-px w-14 bg-[#c9962f]/70" />
-        <div className="space-y-1.5">
+        <div className="divide-y divide-[#c9962f]/20">
           {lines.map((l, i) => (
-            <p key={i} className="leading-relaxed text-[#4a2a24]">
+            <p key={i} className="py-1.5 leading-relaxed text-[#4a2a24]">
               {l}
             </p>
           ))}
@@ -179,6 +180,22 @@ export default function Families() {
         <div className="mt-12 grid gap-12 sm:grid-cols-2 sm:gap-8">
           <Card title={invite.welcome?.title} lines={invite.welcome?.lines} />
           <Card title={invite.maternal?.title} lines={invite.maternal?.lines} />
+        </div>
+      </div>
+
+      {/* With special regards: विशेष आग्रह, स्वागतकर्ता, दर्शनाभिलाषी */}
+      <div className="mt-20 sm:mt-24">
+        <div className="fam mb-3">
+          <p className="font-display text-2xl text-[#7a1230] sm:text-3xl">सादर निवेदन</p>
+          <p className="mt-1 text-sm italic text-[#8a6212]">With warm regards</p>
+        </div>
+        <Divider />
+        <div className="mt-12 grid gap-12 sm:grid-cols-2 sm:gap-8">
+          <Card title={invite.specialRequest?.title} lines={invite.specialRequest?.lines} />
+          <Card title={invite.welcomers?.title} lines={invite.welcomers?.lines} />
+        </div>
+        <div className="mx-auto mt-12 max-w-sm sm:mt-14">
+          <Card title={invite.darshanabhilashi?.title} lines={invite.darshanabhilashi?.lines} />
         </div>
       </div>
 
