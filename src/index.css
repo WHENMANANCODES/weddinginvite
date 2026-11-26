@@ -1,20 +1,55 @@
+
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=Playfair+Display:wght@500;700&family=Tiro+Devanagari+Hindi&display=swap');
+
 @import "tailwindcss";
 
 @theme {
+  /* Typography */
   --font-display: 'Playfair Display', serif;
   --font-body: 'Cormorant Garamond', serif;
-  --color-ivory: #fdf8ef;
-  --color-gold: #b8893a;
-  --color-ink: #3b2a1a;
+  --font-hindi: 'Tiro Devanagari Hindi', serif;
+
+  /* Wedding Color Palette */
+  --color-ivory: #FFF9EF;
+  --color-gold: #C6A15B;
+  --color-ink: #514943;
+
+  --color-teal: #164E52;
+  --color-deep-teal: #103B40;
+  --color-rose: #C77983;
+
+  /* Supporting shades */
+  --color-soft-gold: #E6D2A5;
+  --color-muted-ivory: #F5EBDD;
 }
-.preserve-3d { transform-style: preserve-3d; }
-.backface-hidden { backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+
+.preserve-3d {
+  transform-style: preserve-3d;
+}
+
+.backface-hidden {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
 
 @keyframes twinkle {
-  0%, 100% { opacity: 0.1; transform: scale(0.6); }
-  50% { opacity: 0.9; transform: scale(1); }
-}
-.sparkle { animation: twinkle var(--d) ease-in-out var(--delay) infinite; }
+  0%, 100% {
+    opacity: 0.1;
+    transform: scale(0.6);
+  }
 
-html { background: var(--color-ivory); color: var(--color-ink); font-family: var(--font-body); }
+  50% {
+    opacity: 0.9;
+    transform: scale(1);
+  }
+}
+
+.sparkle {
+  animation: twinkle var(--d) ease-in-out var(--delay) infinite;
+}
+
+html {
+  background: var(--color-ivory);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+}

@@ -1,3 +1,4 @@
+
 import { useEffect, useRef, useState } from 'react'
 import Lenis from 'lenis'
 import 'lenis/dist/lenis.css'
@@ -16,43 +17,64 @@ export default function App() {
   const [intro, setIntro] = useState(true)
   const [revealed, setRevealed] = useState(false)
   const [paused, setPaused] = useState(false)
+
   const lenis = useRef(null)
   const audio = useRef(null)
 
+  // Smooth scrolling with Lenis
   useEffect(() => {
     const l = new Lenis()
-    l.stop() // locked until the invitation opens
+    l.stop()
     lenis.current = l
+
     l.on('scroll', ScrollTrigger.update)
+
     const tick = (t) => l.raf(t * 1000)
+
     gsap.ticker.add(tick)
     gsap.ticker.lagSmoothing(0)
+
     return () => {
       gsap.ticker.remove(tick)
       l.destroy()
     }
   }, [])
 
-  // Music: tries immediately, otherwise starts on the first tap/click/key
+  // Background music
   useEffect(() => {
-    const a = new Audio('/bgm.mp3') // put your file in /public/bgm.mp3
+    const a = new Audio('/bgm.mp3')
     a.loop = true
     a.volume = 0
     audio.current = a
 
-    const events = ['pointerdown', 'pointerup', 'touchend', 'click', 'keydown']
-    const stop = () => events.forEach((e) => window.removeEventListener(e, start))
+    const events = [
+      'pointerdown',
+      'pointerup',
+      'touchend',
+      'click',
+      'keydown',
+    ]
+
+    const stop = () => {
+      events.forEach((e) => window.removeEventListener(e, start))
+    }
+
     function start() {
       a.play()
         .then(() => {
-          gsap.to(a, { volume: 0.6, duration: 3, ease: 'power1.in' })
+          gsap.to(a, {
+            volume: 0.6,
+            duration: 3,
+            ease: 'power1.in',
+          })
           stop()
         })
-        .catch(() => {}) // browser blocked it, will retry on the next tap
+        .catch(() => {})
     }
 
     start()
     events.forEach((e) => window.addEventListener(e, start))
+
     return () => {
       stop()
       gsap.killTweensOf(a)
@@ -61,14 +83,17 @@ export default function App() {
   }, [])
 
   const handleReveal = () => setRevealed(true)
+
   const handleDone = () => {
     setIntro(false)
     lenis.current?.start()
   }
 
+  // Music toggle
   const toggleMusic = () => {
     const a = audio.current
     if (!a) return
+
     if (a.paused) {
       a.play().catch(() => {})
       setPaused(false)
@@ -78,73 +103,146 @@ export default function App() {
     }
   }
 
+  // Reveal animation
   const rise = `transition duration-1000 ease-out ${
-    revealed ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
+    revealed
+      ? 'translate-y-0 opacity-100'
+      : 'translate-y-8 opacity-0'
   }`
 
   return (
     <>
+      {/* Moving Couple Background */}
       <RomanticBackground />
-      {intro && <EnvelopeIntro onReveal={handleReveal} onDone={handleDone} />}
+
+      {/* Envelope Intro */}
+      {intro && (
+        <EnvelopeIntro
+          onReveal={handleReveal}
+          onDone={handleDone}
+        />
+      )}
 
       <main className="relative z-10">
-        <section className="grid min-h-svh place-items-center px-6 text-center">
-          <div>
-            <p className={`${rise} text-sm leading-relaxed tracking-wide sm:text-base`}>
+
+        {/* ================= HERO SECTION ================= */}
+
+        <section className="grid min-h-svh place-items-center px-5 py-20 text-center">
+
+          <div className="w-full max-w-7xl">
+
+            {/* Sanskrit Shloka */}
+            <p
+              className={`${rise} font-hindi text-base font-semibold leading-relaxed tracking-wide text-[#103B40] [text-shadow:0_1px_10px_rgba(255,249,239,0.95)] sm:text-xl md:text-2xl`}
+            >
               {invite.shloka[0]}
               <br />
               {invite.shloka[1]}
             </p>
+
+            {/* Gold Divider */}
+            <div className="mx-auto my-8 h-[2px] w-28 bg-[#A77A32] shadow-[0_1px_5px_rgba(255,249,239,0.7)]" />
+
+            {/* Couple Names */}
             <h1
               style={{ transitionDelay: '250ms' }}
-              className={`${rise} my-6 flex flex-col items-center font-display text-[clamp(2.75rem,13vw,6rem)] leading-tight sm:flex-row sm:justify-center sm:gap-4`}
+              className={`${rise} my-8 flex flex-col items-center font-display text-[clamp(3.2rem,12vw,8rem)] font-bold leading-[1.1] tracking-tight text-[#103B40] [text-shadow:0_2px_12px_rgba(255,249,239,0.95),0_1px_2px_rgba(255,249,239,0.8)] sm:flex-row sm:justify-center sm:gap-5`}
             >
               <span>{invite.groom}</span>
-              <span className="text-gold">&amp;</span>
+
+              <span className="font-display text-[#A77A32] [text-shadow:0_2px_10px_rgba(255,249,239,0.95)]">
+                &amp;
+              </span>
+
               <span>{invite.bride}</span>
             </h1>
-            <p style={{ transitionDelay: '500ms' }} className={`${rise} font-display text-xl italic`}>
+
+            {/* Tagline */}
+            <p
+              style={{ transitionDelay: '500ms' }}
+              className={`${rise} font-display text-xl font-semibold italic text-[#443B35] [text-shadow:0_1px_10px_rgba(255,249,239,0.95)] sm:text-3xl md:text-4xl`}
+            >
               {invite.tagline}
             </p>
-            <p style={{ transitionDelay: '750ms' }} className={`${rise} mt-6 tracking-[0.25em] text-gold`}>
+
+            {/* Gold Divider */}
+            <div className="mx-auto my-8 h-[2px] w-28 bg-[#A77A32] shadow-[0_1px_5px_rgba(255,249,239,0.7)]" />
+
+            {/* Wedding Date */}
+            <p
+              style={{ transitionDelay: '750ms' }}
+              className={`${rise} font-display text-base font-bold tracking-[0.15em] text-[#91651F] [text-shadow:0_1px_10px_rgba(255,249,239,0.98)] sm:text-xl sm:tracking-[0.22em] md:text-2xl`}
+            >
               {invite.dateLabel}
             </p>
+
           </div>
         </section>
 
+        {/* ================= COUNTDOWN ================= */}
+
         <section className="px-6 py-16 sm:py-24">
-          <h2 className="mb-10 text-center font-display text-4xl text-gold">शुभ घड़ी आने में</h2>
+
+          <h2 className="mb-10 text-center font-display text-3xl font-bold text-[#103B40] [text-shadow:0_1px_8px_rgba(255,249,239,0.95)] sm:text-4xl">
+            शुभ घड़ी आने में
+          </h2>
+
           <Countdown target={invite.date} />
+
         </section>
+
+        {/* ================= WEDDING SCHEDULE ================= */}
 
         <Schedule />
 
-        <section className="px-6 pb-16 text-center sm:pb-24">
-          <p className="mb-2 font-display text-2xl">{invite.venue.name}</p>
-          <p className="mb-2">{invite.venue.city}</p>
-          <p className="mb-6 text-sm italic">{invite.venue.note}</p>
-          <a
-            href={invite.venue.mapsUrl}
-            target="_blank"
-            rel="noreferrer"
-            className="inline-block min-h-12 rounded-full border border-gold px-8 py-3 text-gold transition active:bg-gold active:text-ivory sm:hover:bg-gold sm:hover:text-ivory"
-          >
-            रास्ता देखें
-          </a>
+        {/* ================= VENUE SECTION ================= */}
+
+        <section className="px-6 py-20 text-center">
+
+          <div className="mx-auto max-w-xl rounded-3xl border border-[#C6A15B]/60 bg-[#FFF9EF]/90 px-6 py-12 shadow-[0_12px_40px_rgba(16,59,64,0.12)] backdrop-blur-sm">
+
+            <p className="mb-3 font-display text-3xl font-bold text-[#103B40]">
+              {invite.venue.name}
+            </p>
+
+            <p className="mb-3 text-lg font-semibold text-[#514943]">
+              {invite.venue.city}
+            </p>
+
+            <p className="mb-8 text-base italic text-[#786858]">
+              {invite.venue.note}
+            </p>
+
+            <a
+              href={invite.venue.mapsUrl}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex min-h-12 items-center justify-center rounded-full border-2 border-[#103B40] bg-[#103B40] px-9 py-3 font-semibold tracking-wide text-[#FFF9EF] shadow-md transition-all duration-300 hover:border-[#A77A32] hover:bg-[#A77A32] hover:text-[#103B40] active:scale-95"
+            >
+              रास्ता देखें
+            </a>
+
+          </div>
         </section>
 
+        {/* ================= FAMILY SECTION ================= */}
+
         <Families />
+
       </main>
+
+      {/* ================= MUSIC BUTTON ================= */}
 
       {!intro && (
         <button
           onClick={toggleMusic}
           aria-label="Toggle music"
-          className="fixed right-4 bottom-4 z-40 grid h-11 w-11 place-items-center rounded-full border border-gold/50 bg-ivory/80 backdrop-blur"
+          className="fixed right-5 bottom-5 z-40 grid h-12 w-12 place-items-center rounded-full border-2 border-[#C6A15B] bg-[#103B40] text-lg text-[#FFF9EF] shadow-[0_5px_20px_rgba(16,59,64,0.3)] transition-all duration-300 hover:scale-110 hover:bg-[#164E52] active:scale-95"
         >
           {paused ? '🔇' : '🎵'}
         </button>
       )}
+
     </>
   )
 }
