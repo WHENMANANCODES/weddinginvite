@@ -1,4 +1,3 @@
-
 import { useEffect, useRef, useState } from 'react'
 import Lenis from 'lenis'
 import 'lenis/dist/lenis.css'
@@ -10,6 +9,7 @@ import EnvelopeIntro from './components/EnvelopeIntro'
 import Countdown from './components/Countdown'
 import Schedule from './components/Schedule'
 import Families from './components/Families'
+import WishLanterns from './components/WishLanterns'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -140,8 +140,8 @@ export default function App() {
               {invite.shloka[1]}
             </p>
 
-            {/* Gold Divider */}
-            <div className="mx-auto my-8 h-[2px] w-28 bg-[#A77A32] shadow-[0_1px_5px_rgba(255,249,239,0.7)]" />
+            {/* Burgundy Divider */}
+            <div className="mx-auto my-8 h-[2px] w-28 bg-[#762D45] shadow-[0_1px_5px_rgba(255,249,239,0.8)]" />
 
             {/* Couple Names */}
             <h1
@@ -150,7 +150,7 @@ export default function App() {
             >
               <span>{invite.groom}</span>
 
-              <span className="font-display text-[#A77A32] [text-shadow:0_2px_10px_rgba(255,249,239,0.95)]">
+              <span className="font-display text-[#762D45] [text-shadow:0_2px_10px_rgba(255,249,239,0.95)]">
                 &amp;
               </span>
 
@@ -165,13 +165,13 @@ export default function App() {
               {invite.tagline}
             </p>
 
-            {/* Gold Divider */}
-            <div className="mx-auto my-8 h-[2px] w-28 bg-[#A77A32] shadow-[0_1px_5px_rgba(255,249,239,0.7)]" />
+            {/* Burgundy Divider */}
+            <div className="mx-auto my-8 h-[2px] w-28 bg-[#762D45] shadow-[0_1px_5px_rgba(255,249,239,0.8)]" />
 
             {/* Wedding Date */}
             <p
               style={{ transitionDelay: '750ms' }}
-              className={`${rise} font-display text-base font-bold tracking-[0.15em] text-[#91651F] [text-shadow:0_1px_10px_rgba(255,249,239,0.98)] sm:text-xl sm:tracking-[0.22em] md:text-2xl`}
+              className={`${rise} font-display text-base font-bold tracking-[0.15em] text-[#762D45] [text-shadow:0_1px_10px_rgba(255,249,239,0.98)] sm:text-xl sm:tracking-[0.22em] md:text-2xl`}
             >
               {invite.dateLabel}
             </p>
@@ -199,7 +199,7 @@ export default function App() {
 
         <section className="px-6 py-20 text-center">
 
-          <div className="mx-auto max-w-xl rounded-3xl border border-[#C6A15B]/60 bg-[#FFF9EF]/90 px-6 py-12 shadow-[0_12px_40px_rgba(16,59,64,0.12)] backdrop-blur-sm">
+          <div className="mx-auto max-w-xl rounded-3xl border border-[#762D45]/50 bg-[#FFF9EF]/90 px-6 py-12 shadow-[0_12px_40px_rgba(16,59,64,0.12)] backdrop-blur-sm">
 
             <p className="mb-3 font-display text-3xl font-bold text-[#103B40]">
               {invite.venue.name}
@@ -217,7 +217,7 @@ export default function App() {
               href={invite.venue.mapsUrl}
               target="_blank"
               rel="noreferrer"
-              className="inline-flex min-h-12 items-center justify-center rounded-full border-2 border-[#103B40] bg-[#103B40] px-9 py-3 font-semibold tracking-wide text-[#FFF9EF] shadow-md transition-all duration-300 hover:border-[#A77A32] hover:bg-[#A77A32] hover:text-[#103B40] active:scale-95"
+              className="inline-flex min-h-12 items-center justify-center rounded-full border-2 border-[#103B40] bg-[#103B40] px-9 py-3 font-semibold tracking-wide text-[#FFF9EF] shadow-md transition-all duration-300 hover:border-[#762D45] hover:bg-[#762D45] hover:text-white active:scale-95"
             >
               रास्ता देखें
             </a>
@@ -231,13 +231,18 @@ export default function App() {
 
       </main>
 
+      {/* ================= WISH LANTERNS ================= */}
+      {/* Shown only after the envelope intro, so it never sits on top of it */}
+
+      {!intro && <WishLanterns />}
+
       {/* ================= MUSIC BUTTON ================= */}
 
       {!intro && (
         <button
           onClick={toggleMusic}
           aria-label="Toggle music"
-          className="fixed right-5 bottom-5 z-40 grid h-12 w-12 place-items-center rounded-full border-2 border-[#C6A15B] bg-[#103B40] text-lg text-[#FFF9EF] shadow-[0_5px_20px_rgba(16,59,64,0.3)] transition-all duration-300 hover:scale-110 hover:bg-[#164E52] active:scale-95"
+          className="fixed right-5 bottom-5 z-40 grid h-12 w-12 place-items-center rounded-full border-2 border-[#762D45] bg-[#103B40] text-lg text-[#FFF9EF] shadow-[0_5px_20px_rgba(16,59,64,0.3)] transition-all duration-300 hover:scale-110 hover:bg-[#762D45] active:scale-95"
         >
           {paused ? '🔇' : '🎵'}
         </button>
